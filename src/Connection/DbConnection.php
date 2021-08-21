@@ -110,7 +110,6 @@ abstract class DbConnection
     /**
      * @param array<string|int,mixed> $params
      */
-    //@phpstan-ignore-next-line
     private function prepareStatement(string $query, array $params): PDOStatement
     {
         $statement = $this->connection->prepare($query);

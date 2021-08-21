@@ -14,7 +14,6 @@ class QueryResult implements Iterator
     protected ?array $row      = null;
     protected ?int   $rowIndex = -1;
 
-    // @phpstan-ignore-next-line
     public function __construct(protected PDOStatement $statement)
     {
     }

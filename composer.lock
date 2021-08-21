@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/szemul/not-set-value.git",
-                "reference": "f68a54175511fbba0495fc00e91281543395ad0a"
+                "reference": "7ce22c5f203d3cc2e797fb02f0c4ba351cf11273"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/szemul/not-set-value/zipball/f68a54175511fbba0495fc00e91281543395ad0a",
-                "reference": "f68a54175511fbba0495fc00e91281543395ad0a",
+                "url": "https://api.github.com/repos/szemul/not-set-value/zipball/7ce22c5f203d3cc2e797fb02f0c4ba351cf11273",
+                "reference": "7ce22c5f203d3cc2e797fb02f0c4ba351cf11273",
                 "shasum": ""
             },
             "require": {
@@ -37,11 +37,12 @@
             "license": [
                 "MIT"
             ],
+            "description": "Simple package to represent a value that has not been set",
             "support": {
                 "source": "https://github.com/szemul/not-set-value/tree/main",
                 "issues": "https://github.com/szemul/not-set-value/issues"
             },
-            "time": "2021-08-20T09:29:21+00:00"
+            "time": "2021-08-20T23:09:15+00:00"
         }
     ],
     "packages-dev": [
@@ -724,16 +725,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.51.1",
+            "version": "2.52.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "8619c299d1e0d4b344e1f98ca07a1ce2cfbf1922"
+                "reference": "369c0e2737c56a0f39c946dd261855255a6fccbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/8619c299d1e0d4b344e1f98ca07a1ce2cfbf1922",
-                "reference": "8619c299d1e0d4b344e1f98ca07a1ce2cfbf1922",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/369c0e2737c56a0f39c946dd261855255a6fccbe",
+                "reference": "369c0e2737c56a0f39c946dd261855255a6fccbe",
                 "shasum": ""
             },
             "require": {
@@ -814,7 +815,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-28T13:16:28+00:00"
+            "time": "2021-08-14T19:10:52+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -1262,16 +1263,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.94",
+            "version": "0.12.95",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "3d0ba4c198a24e3c3fc489f3ec6ac9612c4be5d6"
+                "reference": "4ffddfe86e85dcc494a47e5f3dcfd1a2dccdce58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/3d0ba4c198a24e3c3fc489f3ec6ac9612c4be5d6",
-                "reference": "3d0ba4c198a24e3c3fc489f3ec6ac9612c4be5d6",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/4ffddfe86e85dcc494a47e5f3dcfd1a2dccdce58",
+                "reference": "4ffddfe86e85dcc494a47e5f3dcfd1a2dccdce58",
                 "shasum": ""
             },
             "require": {
@@ -1302,7 +1303,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.94"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.95"
             },
             "funding": [
                 {
@@ -1322,7 +1323,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-30T09:05:27+00:00"
+            "time": "2021-08-20T12:53:41+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -4616,5 +4617,5 @@
         "ext-pdo": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }

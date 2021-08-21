@@ -1,5 +1,6 @@
 {
     "name": "szemul/database",
+    "description": "Simple wrapper for PDO to make it easier to use and easier to mock",
     "license": "MIT",
     "minimum-stability": "stable",
     "repositories": {

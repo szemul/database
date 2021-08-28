@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6cb74163769ee9f26f51914adfdc24d2",
+    "content-hash": "ef7e6dedf431bc99db4dc5c4815155fe",
     "packages": [
         {
             "name": "szemul/not-set-value",
@@ -4455,47 +4455,48 @@
         },
         {
             "name": "szemul/debugger",
-            "version": "dev-main",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/szemul/debugger.git",
-                "reference": "5688bfe190a66f7479f614e717aaf1e3fb032593"
+                "reference": "8cdae43358c3d36fbd656ce5f537673ec3aca72a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/szemul/debugger/zipball/5688bfe190a66f7479f614e717aaf1e3fb032593",
-                "reference": "5688bfe190a66f7479f614e717aaf1e3fb032593",
+                "url": "https://api.github.com/repos/szemul/debugger/zipball/8cdae43358c3d36fbd656ce5f537673ec3aca72a",
+                "reference": "8cdae43358c3d36fbd656ce5f537673ec3aca72a",
                 "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.0.0",
                 "jetbrains/phpstorm-attributes": "^1.0",
                 "mockery/mockery": "^1.0",
-                "phpstan/extension-installer": "^1.1.0",
                 "phpstan/phpstan": "^0.12.80",
-                "phpunit/phpunit": "^9.5.5"
+                "phpunit/phpunit": "^9.5.5",
+                "psr/http-message": "^1.0.1"
             },
-            "default-branch": true,
+            "suggest": {
+                "psr/http-message": "To use the HTTP debug events"
+            },
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "Szemul\\Debugger\\": "src"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Szemul\\Debugger\\Test\\": "tests"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "description": "Debugger",
             "support": {
-                "source": "https://github.com/szemul/debugger/tree/main",
-                "issues": "https://github.com/szemul/debugger/issues"
+                "issues": "https://github.com/szemul/debugger/issues",
+                "source": "https://github.com/szemul/debugger/tree/v1.0.1"
             },
-            "time": "2021-08-20T23:38:42+00:00"
+            "time": "2021-08-28T12:19:30+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -4608,9 +4609,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "szemul/debugger": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

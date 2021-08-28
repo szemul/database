@@ -3,12 +3,6 @@
     "description": "Simple wrapper for PDO to make it easier to use and easier to mock",
     "license": "MIT",
     "minimum-stability": "stable",
-    "repositories": {
-        "FIXME-remove-after-publishing-debugger-to-packagist": {
-            "type": "github",
-            "url": "https://github.com/szemul/debugger.git"
-        }
-    },
     "require": {
         "php": "^8.0",
         "ext-pdo": "*",
@@ -21,7 +15,7 @@
         "nesbot/carbon": "^2.0",
         "phpstan/phpstan": "^0.12.80",
         "phpunit/phpunit": "^9.5.5",
-        "szemul/debugger": "dev-main"
+        "szemul/debugger": "^1.0.1"
     },
     "suggest": {
         "nesbot/carbon": "Extends the DateTime classes",

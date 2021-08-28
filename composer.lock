@@ -12,15 +12,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/szemul/not-set-value.git",
-                "reference": "4a20804c9904473b7040d247b9404e23fa9e654f"
+                "reference": "24b05f59c2685dbcdb9906f50d9cc4ad84f70850"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/szemul/not-set-value/zipball/4a20804c9904473b7040d247b9404e23fa9e654f",
-                "reference": "4a20804c9904473b7040d247b9404e23fa9e654f",
+                "url": "https://api.github.com/repos/szemul/not-set-value/zipball/24b05f59c2685dbcdb9906f50d9cc4ad84f70850",
+                "reference": "24b05f59c2685dbcdb9906f50d9cc4ad84f70850",
                 "shasum": ""
             },
             "require": {
+                "ext-json": "*",
                 "php": "^7.2|^8.0"
             },
             "require-dev": {
@@ -39,10 +40,10 @@
             ],
             "description": "Simple package to represent a value that has not been set",
             "support": {
-                "source": "https://github.com/szemul/not-set-value/tree/main",
+                "source": "https://github.com/szemul/not-set-value/tree/v1.0.0",
                 "issues": "https://github.com/szemul/not-set-value/issues"
             },
-            "time": "2021-08-20T23:25:38+00:00"
+            "time": "2021-08-28T01:43:20+00:00"
         }
     ],
     "packages-dev": [
@@ -1263,16 +1264,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.95",
+            "version": "0.12.96",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "4ffddfe86e85dcc494a47e5f3dcfd1a2dccdce58"
+                "reference": "a98bdc51318f20fcae8c953d266f81a70254917f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/4ffddfe86e85dcc494a47e5f3dcfd1a2dccdce58",
-                "reference": "4ffddfe86e85dcc494a47e5f3dcfd1a2dccdce58",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/a98bdc51318f20fcae8c953d266f81a70254917f",
+                "reference": "a98bdc51318f20fcae8c953d266f81a70254917f",
                 "shasum": ""
             },
             "require": {
@@ -1303,7 +1304,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.95"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.96"
             },
             "funding": [
                 {
@@ -1323,7 +1324,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-08-20T12:53:41+00:00"
+            "time": "2021-08-21T11:55:13+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

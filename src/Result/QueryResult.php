@@ -149,4 +149,9 @@ class QueryResult implements Iterator
     {
         return $this->statement->rowCount();
     }
+
+    public function getPdoStatement(): PDOStatement
+    {
+        return $this->statement;
+    }
 }

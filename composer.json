@@ -7,16 +7,12 @@
         "FIXME-remove-after-publishing-debugger-to-packagist": {
             "type": "github",
             "url": "https://github.com/szemul/debugger.git"
-        },
-        "FIXME-remove-after-publishing-not-set-value-to-packagist": {
-            "type": "github",
-            "url": "https://github.com/szemul/not-set-value.git"
         }
     },
     "require": {
         "php": "^8.0",
         "ext-pdo": "*",
-        "szemul/not-set-value": "dev-main"
+        "szemul/not-set-value": "^1.0.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0.0",

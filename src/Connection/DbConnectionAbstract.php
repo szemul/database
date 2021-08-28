@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 namespace Szemul\Database\Connection;
 
+use DateTime;
 use DateTimeInterface;
 use PDO;
 use PDOException;
 use PDOStatement;
+use Szemul\Database\Config\GenericOptions;
 use Szemul\Database\Debugging\DatabaseCompleteEvent;
 use Szemul\Database\Debugging\DatabaseStartEvent;
 use Szemul\Database\Exception\ConnectionException;
@@ -14,33 +16,28 @@ use Szemul\Database\Exception\QueryException;
 use Szemul\Database\Result\QueryResult;
 use Szemul\Debugger\DebuggerInterface;
 
-abstract class DbConnection
+abstract class DbConnectionAbstract
 {
-    /** @var array<string,mixed> */
-    protected array              $configuration     = [];
     protected ?PDO               $connection;
     protected ?DebuggerInterface $debugger          = null;
     protected int                $transactionCount  = 0;
     protected bool               $transactionFailed = false;
 
+    public function __construct(protected GenericOptions $genericOptions)
+    {
+    }
+
     /**
-     * @param array<string,mixed> $configuration
-     *
      * @throws ConnectionException
      */
-    public function __construct(
-        array $configuration,
-        protected string $connectionName,
-        protected string $paramPrefix = '',
-    ) {
-        $this->configuration = $configuration;
-
+    public function connect(): void
+    {
         try {
-            $this->connect($configuration);
+            $this->connectToDatabase();
         } catch (PDOException $e) {
-            $message = '';
-            $code    = 0;
-            $this->parsePdoException($e, $message, $code);
+            $message = $e->getMessage();
+            $code    = (int)$e->getCode();
+            $this->parsePdoExceptionMessage($message, $code);
 
             throw new ConnectionException($message, $code, $e);
         }
@@ -54,7 +51,7 @@ abstract class DbConnection
 
     public function getParamPrefix(): string
     {
-        return $this->paramPrefix;
+        return $this->genericOptions->getParamPrefix();
     }
 
     public function setDebugger(?DebuggerInterface $debugger): static
@@ -72,7 +69,7 @@ abstract class DbConnection
     public function query(string $query, array $params = []): QueryResult
     {
         if (empty($this->connection)) {
-            throw new ConnectionException('Connection to the database is not established');
+            $this->connect();
         }
 
         try {
@@ -80,7 +77,12 @@ abstract class DbConnection
                 $statement = $this->prepareStatement($query, $params);
                 $statement->execute();
             } else {
-                $debugEvent = new DatabaseStartEvent($this->getBackendType(), $this->connectionName, $query, $params);
+                $debugEvent = new DatabaseStartEvent(
+                    $this->getBackendType(),
+                    $this->genericOptions->getConnectionName(),
+                    $query,
+                    $params,
+                );
                 $this->debugger->handleEvent($debugEvent);
 
                 $statement = $this->prepareStatement($query, $params);
@@ -99,9 +101,10 @@ abstract class DbConnection
             return new QueryResult($statement);
         } catch (PDOException $e) {
             $this->transactionFailed = true;
-            $message                 = '';
-            $code                    = 0;
-            $this->parsePdoException($e, $message, $code);
+
+            $message = $e->getMessage();
+            $code    = (int)$e->getCode();
+            $this->parsePdoExceptionMessage($message, $code);
 
             throw new QueryException($message, $code, $e);
         }
@@ -115,7 +118,7 @@ abstract class DbConnection
         $statement = $this->connection->prepare($query);
 
         foreach ($params as $key => $value) {
-            $statement->bindValue(':' . $this->paramPrefix . $key, $value, $this->getParamType($value));
+            $statement->bindValue(':' . $this->genericOptions->getParamPrefix() . $key, $value);
         }
 
         return $statement;
@@ -160,26 +163,6 @@ abstract class DbConnection
     }
 
     /**
-     * Returns the PDO data type for the specified value.
-     *
-     * Also casts the specified value if it's necessary.
-     */
-    protected function getParamType(mixed &$value): int
-    {
-        if (is_integer($value)) {
-            return PDO::PARAM_INT;
-        } elseif (is_null($value)) {
-            return PDO::PARAM_NULL;
-        } elseif (is_bool($value)) {
-            return PDO::PARAM_BOOL;
-        } else {
-            $value = (string)$value;
-
-            return PDO::PARAM_STR;
-        }
-    }
-
-    /**
      * Begins a transaction.
      *
      * If there already is an open transaction, it just increments the transaction counter.
@@ -187,7 +170,7 @@ abstract class DbConnection
     public function beginTransaction(): int
     {
         if (empty($this->connection)) {
-            throw new ConnectionException('Connection to the database is not established');
+            $this->connect();
         }
         if (0 == $this->transactionCount) {
             $this->connection->beginTransaction();
@@ -205,13 +188,11 @@ abstract class DbConnection
      * if any further statements fail.
      *
      * @return bool   TRUE if the transaction was committed, FALSE if it was rolled back.
-     *
-     * @throws ConnectionException   If no database connection is established.
      */
     public function completeTransaction(): bool
     {
         if (empty($this->connection)) {
-            throw new ConnectionException('Connection to the database is not established');
+            $this->connect();
         }
         $this->transactionCount--;
         if (0 == $this->transactionCount) {
@@ -236,23 +217,6 @@ abstract class DbConnection
     }
 
     /**
-     * Returns the quoted version of the specified value.
-     *
-     * Do not use this function to quote data in a query, use the bound parameters instead. {@see self::query()}
-     *
-     * @throws ConnectionException   If no database connection is established.
-     */
-    public function quote(mixed $value): string
-    {
-        if (empty($this->connection)) {
-            throw new ConnectionException('Connection to the database is not established');
-        }
-
-        return $this->connection->quote($value, $this->getParamType($value));
-    }
-
-    /**
-     * @throws ConnectionException
      * @throws QueryException
      *
      * @see PDO::lastInsertId()
@@ -260,38 +224,32 @@ abstract class DbConnection
     public function lastInsertId(?string $name = null): string
     {
         if (empty($this->connection)) {
-            throw new ConnectionException('Connection to the database is not established');
+            $this->connect();
         }
 
         try {
             return $this->connection->lastInsertId($name);
         } catch (PDOException $e) {
-            $message = '';
-            $code    = 0;
-            $this->parsePdoException($e, $message, $code);
+            $message = $e->getMessage();
+            $code    = (int)$e->getCode();
+            $this->parsePdoExceptionMessage($message, $code);
 
             throw new QueryException($message, $code, $e);
         }
     }
 
     /**
-     * Parses the message and code from the specified PDOException.
-     *
-     * @param PDOException $exception The exception to parse
-     * @param string       $message   The parsed message (outgoing param).
-     * @param int          $code      The parsed code (outgoing param).
+     * Parses the message and code from the specified PDOException message.
      */
-    protected function parsePdoException(PDOException $exception, string &$message, int &$code): void
+    protected function parsePdoExceptionMessage(string &$message, int &$code): void
     {
-        $message = $exception->getMessage();
-        $code    = (int)$exception->getCode();
         $matches = [];
 
         // Parse the ANSI error code from the message.
         // Regex is based on the one from samuelelliot+php dot net at gmail dot com.
-        if (strstr($message, 'SQLSTATE[') && preg_match('/SQLSTATE\[(\d+)\]: (.+)$/', $message, $matches)) {
+        if (strstr($message, 'SQLSTATE[') && preg_match('/SQLSTATE\[(\d+)]: (.+)$/', $message, $matches)) {
             $message = $matches[2];
-            $code    = $matches[1];
+            $code    = (int)$matches[1];
         }
     }
 
@@ -314,27 +272,30 @@ abstract class DbConnection
      */
     public function getFormattedDateTime(?DateTimeInterface $dateTime = null): string
     {
-        if (null == $dateTime) {
-            $dateTime = new \DateTime();
-        }
-
-        return $dateTime->format('Y-m-d H:i:s');
+        return ($dateTime ?? new DateTime())->format('Y-m-d H:i:s');
     }
 
     /**
      * Returns the specified datetime as a date string usable by the current db connection type.
      */
-    public function getDate(?DateTimeInterface $dateTime = null): string
+    public function getFormattedDate(?DateTimeInterface $dateTime = null): string
     {
-        if (null == $dateTime) {
-            $dateTime = new \DateTime();
-        }
-
-        return $dateTime->format('Y-m-d');
+        return ($dateTime ?? new DateTime())->format('Y-m-d');
     }
 
-    /** @param array<string,mixed> $configuration */
-    abstract protected function connect(array $configuration): void;
+    /**
+     * Returns the underlying PDO connection
+     */
+    public function getConnection(): PDO
+    {
+        if (empty($this->connection)) {
+            $this->connect();
+        }
+
+        return $this->connection;
+    }
+
+    abstract protected function connectToDatabase(): void;
 
     abstract protected function getBackendType(): string;
 }

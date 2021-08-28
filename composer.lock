@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f7f4a8145448e5253000f1d74672bf8",
+    "content-hash": "6cb74163769ee9f26f51914adfdc24d2",
     "packages": [
         {
             "name": "szemul/not-set-value",
-            "version": "dev-main",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/szemul/not-set-value.git",
@@ -28,20 +28,20 @@
                 "friendsofphp/php-cs-fixer": "^3.0.0",
                 "phpstan/phpstan": "^0.12.80"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
                     "Szemul\\NotSetValue\\": "src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "description": "Simple package to represent a value that has not been set",
             "support": {
-                "source": "https://github.com/szemul/not-set-value/tree/v1.0.0",
-                "issues": "https://github.com/szemul/not-set-value/issues"
+                "issues": "https://github.com/szemul/not-set-value/issues",
+                "source": "https://github.com/szemul/not-set-value/tree/v1.0.0"
             },
             "time": "2021-08-28T01:43:20+00:00"
         }
@@ -4609,7 +4609,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "szemul/not-set-value": 20,
         "szemul/debugger": 20
     },
     "prefer-stable": false,

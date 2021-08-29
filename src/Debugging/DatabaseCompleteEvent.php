@@ -16,7 +16,7 @@ class DatabaseCompleteEvent implements DebugEventInterface
     public function __construct(private DatabaseStartEvent $startEvent, private ?Throwable $exception = null)
     {
         $this->timestamp = microtime(true);
-        $this->runtime   = $this->timestamp = $this->startEvent->getTimestamp();
+        $this->runtime   = $this->timestamp - $this->startEvent->getTimestamp();
     }
 
     public function isSuccessful(): bool

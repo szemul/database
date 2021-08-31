@@ -279,18 +279,28 @@ class DbConnectionAbstractTest extends TestCase
         $this->assertSame('test.\_.\%', $this->sut->escapeWildcards('test._.%'));
     }
 
-    public function testGetFormattedDateTimeWithDate(): void
+    public function testGetFormattedDateTimeWithDate_shouldReturnTheFormattedDateTime(): void
     {
         $carbon = new Carbon('2021-01-01T00:00:00Z', new DateTimeZone('UTC'));
 
         $this->assertSame('2021-01-01 00:00:00', $this->sut->getFormattedDateTime($carbon));
     }
 
-    public function testGetFormattedDate(): void
+    public function testGetFormattedDateTimeWithNull_shouldReturnNull(): void
+    {
+        $this->assertNull($this->sut->getFormattedDateTime(null));
+    }
+
+    public function testGetFormattedDateWithDate_shouldReturnTheFormattedDate(): void
     {
         $carbon = new Carbon('2021-01-01T00:00:00Z', new DateTimeZone('UTC'));
 
         $this->assertSame('2021-01-01', $this->sut->getFormattedDate($carbon));
+    }
+
+    public function testGetFormattedDateWithNull_shouldReturnNull(): void
+    {
+        $this->assertNull($this->sut->getFormattedDate(null));
     }
 
     /** @return array[] */

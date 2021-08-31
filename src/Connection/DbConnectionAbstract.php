@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Szemul\Database\Connection;
 
-use DateTime;
 use DateTimeInterface;
 use PDO;
 use PDOException;
@@ -268,19 +267,21 @@ abstract class DbConnectionAbstract
     }
 
     /**
-     * Returns the specified datetime as a date-time string usable by the current db connection type.
+     * Returns the specified datetime as a date-time string usable by the current db connection type
+     * or returns Null if NULL is sent
      */
-    public function getFormattedDateTime(?DateTimeInterface $dateTime = null): string
+    public function getFormattedDateTime(?DateTimeInterface $dateTime): ?string
     {
-        return ($dateTime ?? new DateTime())->format('Y-m-d H:i:s');
+        return null === $dateTime ? null : $dateTime->format('Y-m-d H:i:s');
     }
 
     /**
-     * Returns the specified datetime as a date string usable by the current db connection type.
+     * Returns the specified datetime as a date string usable by the current db connection type
+     * or returns Null if NULL is sent
      */
-    public function getFormattedDate(?DateTimeInterface $dateTime = null): string
+    public function getFormattedDate(?DateTimeInterface $dateTime): ?string
     {
-        return ($dateTime ?? new DateTime())->format('Y-m-d');
+        return null === $dateTime ? null : $dateTime->format('Y-m-d');
     }
 
     /**

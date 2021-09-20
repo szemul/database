@@ -17,6 +17,16 @@ class AccessConfig
     ) {
     }
 
+    public function __debugInfo(): ?array
+    {
+        return [
+            'host'     => $this->host,
+            'username' => '*** REDACTED ***',
+            'password' => '*** REDACTED ***',
+            'port'     => $this->port,
+        ];
+    }
+
     public function getHost(): string
     {
         return $this->host;

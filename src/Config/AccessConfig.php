@@ -17,6 +17,9 @@ class AccessConfig
     ) {
     }
 
+    /**
+     * @return array<string,mixed>|null
+     */
     public function __debugInfo(): ?array
     {
         return [

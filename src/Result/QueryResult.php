@@ -92,9 +92,11 @@ class QueryResult implements Iterator
     /**
      * Returns a column from the resultset.
      */
-    public function fetchColumn(int $columnNumber = 0): string
+    public function fetchColumn(int $columnNumber = 0): ?string
     {
-        return $this->statement->fetchColumn($columnNumber);
+        $result = $this->statement->fetchColumn($columnNumber);
+
+        return false === $result ? null : $result;
     }
 
     /**

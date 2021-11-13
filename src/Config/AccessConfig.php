@@ -5,7 +5,6 @@ namespace Szemul\Database\Config;
 
 use JetBrains\PhpStorm\Immutable;
 
-/** @codeCoverageIgnore */
 #[Immutable]
 class AccessConfig
 {

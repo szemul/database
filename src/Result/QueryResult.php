@@ -22,7 +22,7 @@ class QueryResult implements Iterator
     public function current(): ?array
     {
         if (is_null($this->row)) {
-            return $this->next();
+            $this->next();
         }
 
         return $this->row;
@@ -39,10 +39,8 @@ class QueryResult implements Iterator
 
     /**
      * Returns the next row from the result and increments the row counter
-     *
-     * @return array<string,string>|null
      */
-    public function next(): ?array
+    public function next(): void
     {
         $row = $this->statement->fetch(PDO::FETCH_ASSOC);
         if (false !== $row) {
@@ -52,8 +50,6 @@ class QueryResult implements Iterator
             $this->row      = null;
             $this->rowIndex = null;
         }
-
-        return $this->row;
     }
 
     /**

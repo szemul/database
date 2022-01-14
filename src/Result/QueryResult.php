@@ -92,7 +92,7 @@ class QueryResult implements Iterator
     /**
      * Returns a column from the resultset.
      */
-    public function fetchColumn(int $columnNumber = 0): ?string
+    public function fetchColumn(int $columnNumber = 0): mixed
     {
         $result = $this->statement->fetchColumn($columnNumber);
 

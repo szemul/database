@@ -72,7 +72,7 @@ class QueryResult implements Iterator
      */
     public function fetch(): ?array
     {
-        return $this->next();
+        return $this->current();
     }
 
     /**

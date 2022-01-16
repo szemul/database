@@ -78,7 +78,7 @@ class QueryResult implements Iterator
     /**
      * Returns all rows from the resultset as an associative array.
      *
-     * @return array<int,array>
+     * @return array<int,array<string,mixed>>
      */
     public function fetchAll(): array
     {

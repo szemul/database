@@ -303,7 +303,7 @@ class DbConnectionAbstractTest extends TestCase
         $this->assertNull($this->sut->getFormattedDate(null));
     }
 
-    /** @return array[] */
+    /** @return int[][] */
     public function getQueryPagedValues(): array
     {
         return [

@@ -4,29 +4,29 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ef7e6dedf431bc99db4dc5c4815155fe",
+    "content-hash": "e08bf36ec98a67ec9f1ff0e7692a9ccc",
     "packages": [
         {
             "name": "szemul/not-set-value",
-            "version": "v1.0.0",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/szemul/not-set-value.git",
-                "reference": "24b05f59c2685dbcdb9906f50d9cc4ad84f70850"
+                "reference": "5f9893a45038293960fb72dbc7f6345485f9aace"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/szemul/not-set-value/zipball/24b05f59c2685dbcdb9906f50d9cc4ad84f70850",
-                "reference": "24b05f59c2685dbcdb9906f50d9cc4ad84f70850",
+                "url": "https://api.github.com/repos/szemul/not-set-value/zipball/5f9893a45038293960fb72dbc7f6345485f9aace",
+                "reference": "5f9893a45038293960fb72dbc7f6345485f9aace",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php": "^7.2|^8.0"
+                "php": "^8.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.0.0",
-                "phpstan/phpstan": "^0.12.80"
+                "phpstan/phpstan": "^1.4.0"
             },
             "type": "library",
             "autoload": {
@@ -41,9 +41,9 @@
             "description": "Simple package to represent a value that has not been set",
             "support": {
                 "issues": "https://github.com/szemul/not-set-value/issues",
-                "source": "https://github.com/szemul/not-set-value/tree/v1.0.0"
+                "source": "https://github.com/szemul/not-set-value/tree/2.0.0"
             },
-            "time": "2021-08-28T01:43:20+00:00"
+            "time": "2022-01-16T03:28:20+00:00"
         }
     ],
     "packages-dev": [
@@ -1335,16 +1335,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.99",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "b4d40f1d759942f523be267a1bab6884f46ca3f7"
+                "reference": "72b04d97b5e6e60a081f17c416fef35bd521120b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/b4d40f1d759942f523be267a1bab6884f46ca3f7",
-                "reference": "b4d40f1d759942f523be267a1bab6884f46ca3f7",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/72b04d97b5e6e60a081f17c416fef35bd521120b",
+                "reference": "72b04d97b5e6e60a081f17c416fef35bd521120b",
                 "shasum": ""
             },
             "require": {
@@ -1360,7 +1360,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.12-dev"
+                    "dev-master": "1.4-dev"
                 }
             },
             "autoload": {
@@ -1375,7 +1375,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.99"
+                "source": "https://github.com/phpstan/phpstan/tree/1.4.0"
             },
             "funding": [
                 {
@@ -1395,7 +1395,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-12T20:09:55+00:00"
+            "time": "2022-01-14T15:58:47+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

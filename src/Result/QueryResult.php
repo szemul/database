@@ -117,7 +117,6 @@ class QueryResult implements Iterator
      */
     public function fetchAllClass(string $className): array
     {
-        //@phpstan-ignore-next-line PHPStan is wrong, setFetchMode accepts a string too for FETCH_CLASS
         $this->statement->setFetchMode(PDO::FETCH_CLASS, $className);
 
         return $this->statement->fetchAll();
@@ -128,7 +127,6 @@ class QueryResult implements Iterator
      */
     public function fetchClass(string $className): ?object
     {
-        //@phpstan-ignore-next-line PHPStan is wrong, setFetchMode accepts a string too for FETCH_CLASS
         $this->statement->setFetchMode(PDO::FETCH_CLASS, $className);
 
         $result = $this->statement->fetch();

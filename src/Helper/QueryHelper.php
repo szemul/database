@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Szemul\Database\Helper;
 
+use Szemul\Database\Connection\MysqlConnection;
+
 class QueryHelper
 {
     /** Interval unit for day. */
@@ -109,5 +111,60 @@ class QueryHelper
         }
 
         return implode('_', $paramNameParts);
+    }
+
+    /**
+     * Adds the specified ids to the paramteters for a query and returns the parameter names
+     *
+     * @param array<int,int|mixed> $ids
+     * @param array<string,mixed>  $params
+     *
+     * @return string[]
+     */
+    public function getIdListParamNames(array $ids, array &$params): array
+    {
+        $ids = array_unique($ids);
+
+        $idParamNames = [];
+        $params       = [];
+        foreach ($ids as $index => $id) {
+            $paramName          = 'id_' . $index;
+            $params[$paramName] = (int)$id;
+            $idParamNames[]     = ':' . $paramName;
+        }
+
+        return $idParamNames;
+    }
+
+    /**
+     * Runs a getListByIds query for the specified table and fields
+     *
+     * @param string[]             $fields
+     * @param array<int,int|mixed> $ids
+     *
+     * @return array<int,array<string,mixed>>
+     */
+    public function getListFromTableByIds(MysqlConnection $connection, string $table, array $fields, array $ids): array
+    {
+        if (empty($ids)) {
+            return [];
+        }
+
+        $params     = [];
+        $paramNames = $this->getIdListParamNames($ids, $params);
+
+        $query = '
+            SELECT
+                ' . implode(', ', array_map(fn (string $field) => "`$field`", $fields)) . '
+            FROM
+                `' . $table . '`
+            WHERE
+                id IN (' . implode(',', $paramNames) . ')
+            ORDER BY
+                FIELD(id, ' . implode(',', $paramNames) . ')
+        ';
+
+        return $connection->query($query, $params)
+            ->fetchAll();
     }
 }

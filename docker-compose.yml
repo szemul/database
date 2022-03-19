@@ -8,6 +8,6 @@ services:
     - .:/var/www/html:rw
 
   mysql:
-    image: mysql:8.0
+    image: mariadb:10.8
     environment:
       ROOT_PASSWORD: secret

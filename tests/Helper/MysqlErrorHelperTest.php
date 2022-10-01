@@ -41,6 +41,7 @@ class MysqlErrorHelperTest extends TestCase
         try {
             $this->getSut()->processException($exception);
 
+            // @phpstan-ignore-next-line
             $this->fail('Exception should have been thrown');
         } catch (EntityDuplicateException $duplicateException) {
             $this->assertSame(null, $duplicateException->getEntityName());
@@ -57,6 +58,7 @@ class MysqlErrorHelperTest extends TestCase
         try {
             $this->getSut()->processException($exception, $entityName);
 
+            // @phpstan-ignore-next-line
             $this->fail('Exception should have been thrown');
         } catch (EntityDuplicateException $duplicateException) {
             $this->assertSame($entityName, $duplicateException->getEntityName());
@@ -82,6 +84,7 @@ class MysqlErrorHelperTest extends TestCase
         try {
             $this->getSut()->processException($exception);
 
+            // @phpstan-ignore-next-line
             $this->fail('Exception should have been thrown');
         } catch (EntityDuplicateException $duplicateException) {
             $this->assertSame('Customer already exists', $duplicateException->getMessage());
@@ -99,6 +102,7 @@ class MysqlErrorHelperTest extends TestCase
         try {
             $this->getSut()->processException($exception);
 
+            // @phpstan-ignore-next-line
             $this->fail('Exception should have been thrown');
         } catch (QueryException $queryException) {
             $this->assertSame($exception, $queryException);
@@ -114,6 +118,7 @@ class MysqlErrorHelperTest extends TestCase
         try {
             $this->getSut()->processException($exception);
 
+            // @phpstan-ignore-next-line
             $this->fail('Exception should have been thrown');
         } catch (QueryException $queryException) {
             $this->assertSame($exception, $queryException);

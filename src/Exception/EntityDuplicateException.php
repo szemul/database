@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Szemul\Database\Exception;
 
 use Exception;
-use RuntimeException;
 
-class EntityDuplicateException extends RuntimeException
+class EntityDuplicateException extends QueryException
 {
     private ?string $entityName;
 

@@ -7,6 +7,7 @@ use JetBrains\PhpStorm\Pure;
 use PDO;
 use PDOException;
 use Szemul\Database\Config\MysqlConfig;
+use Szemul\Database\Exception\EntityDuplicateException;
 use Szemul\Database\Exception\QueryException;
 use Szemul\Database\Exception\ServerHasGoneAwayException;
 use Szemul\Database\Helper\MysqlErrorHelper;
@@ -68,6 +69,11 @@ class MysqlConnection extends DbConnectionAbstract
         return self::BACKEND_TYPE;
     }
 
+    /**
+     * @throws EntityDuplicateException
+     * @throws ServerHasGoneAwayException
+     * @throws QueryException
+     */
     public function query(string $query, array $params = []): QueryResult
     {
         try {

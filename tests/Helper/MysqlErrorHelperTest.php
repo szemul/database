@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Szemul\Database\Exception\EntityDuplicateException;
 use Szemul\Database\Exception\QueryException;
 use Szemul\Database\Exception\ServerHasGoneAwayException;
+use Szemul\Database\Exception\UserDefinedException;
 use Szemul\Database\Helper\MysqlErrorHelper;
 
 class MysqlErrorHelperTest extends TestCase
@@ -104,8 +105,10 @@ class MysqlErrorHelperTest extends TestCase
 
             // @phpstan-ignore-next-line
             $this->fail('Exception should have been thrown');
-        } catch (QueryException $queryException) {
-            $this->assertSame($exception, $queryException);
+        } catch (UserDefinedException $userDefinedException) {
+            $this->assertSame($message, $userDefinedException->getMessage());
+            $this->assertSame($code, $userDefinedException->getCode());
+            $this->assertSame($exception, $userDefinedException->getPrevious());
         }
     }
 
@@ -120,8 +123,10 @@ class MysqlErrorHelperTest extends TestCase
 
             // @phpstan-ignore-next-line
             $this->fail('Exception should have been thrown');
-        } catch (QueryException $queryException) {
-            $this->assertSame($exception, $queryException);
+        } catch (UserDefinedException $userDefinedException) {
+            $this->assertSame($message, $userDefinedException->getMessage());
+            $this->assertSame($code, $userDefinedException->getCode());
+            $this->assertSame($exception, $userDefinedException->getPrevious());
         }
     }
 

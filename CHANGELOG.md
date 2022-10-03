@@ -1,0 +1,28 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
+and this project adheres to [Semantic Versioning](http://semver.org/).
+
+## [3.0.0] - 2022-10-03
+
+Use the `\Szemul\Database\Connection\ConnectionFactory::getMysql` method to instantiate the MysqlConnection class.
+
+### Added
+
+- \Szemul\Database\Connection\ConnectionFactory to help create connection classes.
+- `EntityDuplicateException` used to inform about a unique key violation
+- `ServerHasGoneAwayExcetion` used to inform about a connection timeout
+- `UserDefinedExcetion` used to inform about an error defined in the SQL server by a user (triggers for example)
+- This changelog :)
+
+### Changed
+
+- `\Szemul\Database\Connection\MysqlConnection::query` is now processing the received exception and translates them to
+  more specific exceptions if possible.
+
+### Fixed
+
+- `\Szemul\Database\Connection\MysqlConnection::query` method was repeating the query in case of an error. This has been
+  fixed.

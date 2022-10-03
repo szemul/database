@@ -7,7 +7,10 @@ use JetBrains\PhpStorm\Pure;
 use PDO;
 use PDOException;
 use Szemul\Database\Config\MysqlConfig;
+use Szemul\Database\Exception\EntityDuplicateException;
 use Szemul\Database\Exception\QueryException;
+use Szemul\Database\Exception\ServerHasGoneAwayException;
+use Szemul\Database\Helper\MysqlErrorHelper;
 use Szemul\Database\Result\QueryResult;
 
 class MysqlConnection extends DbConnectionAbstract
@@ -15,8 +18,10 @@ class MysqlConnection extends DbConnectionAbstract
     public const BACKEND_TYPE = 'mysql';
 
     #[Pure]
-    public function __construct(protected MysqlConfig $config)
-    {
+    public function __construct(
+        protected MysqlConfig $config,
+        protected MysqlErrorHelper $errorHelper,
+    ) {
         parent::__construct($config->getGenericOptions());
     }
 
@@ -64,21 +69,41 @@ class MysqlConnection extends DbConnectionAbstract
         return self::BACKEND_TYPE;
     }
 
+    /**
+     * @throws EntityDuplicateException
+     * @throws ServerHasGoneAwayException
+     * @throws QueryException
+     */
     public function query(string $query, array $params = []): QueryResult
     {
-        // If retryOnMysqlServerHasGoneAway is TRUE and we receive that error we reconnect and retry the query once
         try {
             return parent::query($query, $params);
         } catch (QueryException $e) {
-            if (!$this->config->retryOnMysqlServerHasGoneAway()) {
-                throw $e;
+            try {
+                $this->errorHelper->processException($e);
+            } catch (ServerHasGoneAwayException $serverHasGoneAwayException) {
+                return $this->handleServerHasGoneAway($serverHasGoneAwayException, $query, $params);
             }
+        }
+    }
 
-            if ($e->getMessage() === 'SQLSTATE[HY000]: General error: 2006 MySQL server has gone away') {
-                $this->connect();
-            }
+    /**
+     * If retryOnMysqlServerHasGoneAway is TRUE and we receive that error we reconnect and retry the query once
+     *
+     * @param array<string|int, mixed> $params
+     */
+    private function handleServerHasGoneAway(ServerHasGoneAwayException $exception, string $query, array $params): QueryResult
+    {
+        if (!$this->config->retryOnMysqlServerHasGoneAway()) {
+            throw $exception;
+        }
 
+        $this->connect();
+
+        try {
             return parent::query($query, $params);
+        } catch (QueryException $exception) {
+            $this->errorHelper->processException($exception);
         }
     }
 }

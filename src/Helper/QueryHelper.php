@@ -85,36 +85,7 @@ class QueryHelper
     }
 
     /**
-     * Returns the name of the given field with the proper prefix.
-     */
-    protected function getPrefixedField(string $tableAlias, string $fieldName): string
-    {
-        $prefix = empty($tableAlias) ? '' : $tableAlias . '.';
-
-        return $prefix . $fieldName;
-    }
-
-    /**
-     * Creates a parameter name based on the given field and table.
-     */
-    protected function getParamName(string $fieldName, string $tableAlias = '', ?int $index = null): string
-    {
-        $paramNameParts = [];
-
-        if (!empty($tableAlias)) {
-            $paramNameParts[] = $tableAlias;
-        }
-        $paramNameParts[] = $fieldName;
-
-        if (!is_null($index)) {
-            $paramNameParts[] = $index;
-        }
-
-        return implode('_', $paramNameParts);
-    }
-
-    /**
-     * Adds the specified ids to the paramteters for a query and returns the parameter names
+     * Adds the specified ids to the parameters for a query and returns the parameter names
      *
      * @param array<int,int|mixed> $ids
      * @param array<string,mixed>  $params
@@ -143,9 +114,15 @@ class QueryHelper
      * @param array<int,int|mixed> $ids
      *
      * @return array<int,array<string,mixed>>
+     *
+     * @throws \InvalidArgumentException
      */
-    public function getListFromTableByIds(MysqlConnection $connection, string $table, array $fields, array $ids): array
+    public function getListFromTableByIds(MysqlConnection $connection, string $table, array $fields, array $ids, string $idFieldName = 'id'): array
     {
+        if (empty($fields)) {
+            throw new \InvalidArgumentException('No fields given');
+        }
+
         if (empty($ids)) {
             return [];
         }
@@ -159,12 +136,41 @@ class QueryHelper
             FROM
                 `' . $table . '`
             WHERE
-                id IN (' . implode(',', $paramNames) . ')
+                `' . $idFieldName . '` IN (' . implode(',', $paramNames) . ')
             ORDER BY
-                FIELD(id, ' . implode(',', $paramNames) . ')
+                FIELD(`' . $idFieldName . '`, ' . implode(',', $paramNames) . ')
         ';
 
         return $connection->query($query, $params)
             ->fetchAll();
+    }
+
+    /**
+     * Returns the name of the given field with the proper prefix.
+     */
+    protected function getPrefixedField(string $tableAlias, string $fieldName): string
+    {
+        $prefix = empty($tableAlias) ? '' : $tableAlias . '.';
+
+        return $prefix . $fieldName;
+    }
+
+    /**
+     * Creates a parameter name based on the given field and table.
+     */
+    protected function getParamName(string $fieldName, string $tableAlias = '', ?int $index = null): string
+    {
+        $paramNameParts = [];
+
+        if (!empty($tableAlias)) {
+            $paramNameParts[] = $tableAlias;
+        }
+        $paramNameParts[] = $fieldName;
+
+        if (!is_null($index)) {
+            $paramNameParts[] = $index;
+        }
+
+        return implode('_', $paramNameParts);
     }
 }

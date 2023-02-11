@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.1] - 2023-02-11
+
+### Changed
+
+- `\Szemul\Database\Helper\QueryHelper::getListFromTableByIds` now throws Exception if no fields passed
+- Name of the id field can be passed to `\Szemul\Database\Helper\QueryHelper::getListFromTableByIds`
+
 ## [3.0.0] - 2022-10-03
 
 Use the `\Szemul\Database\Connection\ConnectionFactory::getMysql` method to instantiate the MysqlConnection class.

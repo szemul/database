@@ -6,3 +6,16 @@ parameters:
   earlyTerminatingMethodCalls:
     Szemul\Database\Helper\MysqlErrorHelper:
         - processException
+  ignoreErrors:
+    -
+      message: '#Mockery\\LegacyMockInterface#'
+      path: tests/*
+    -
+      message: '#Mockery\\ExpectationInterface#'
+      path: tests/*
+    -
+      message: '#Provider\(\) return type has no value type specified in iterable type array#'
+      path: tests/*
+    -
+      message: '#with no value type specified in iterable type array#'
+      path: tests/*

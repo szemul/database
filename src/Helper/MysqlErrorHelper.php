@@ -26,12 +26,12 @@ class MysqlErrorHelper
         switch ($exception->getCode()) {
             case self::CODE_GENERAL:
                 $this->handleGeneralErrors($exception);
-            // no break
+                // no break
             case self::CODE_DUPLICATE_ENTRY:
                 throw new EntityDuplicateException($entityName, $exception);
             case self::CODE_UNHANDLED_USER_DEFINED_EXCEPTION:
                 $this->handleUserDefinedException($exception);
-            // no break
+                // no break
             default:
                 throw $exception;
         }

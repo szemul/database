@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Szemul\Database\Helper;
@@ -21,7 +22,7 @@ class QueryHelper
     /**
      * Generates a condition like [tableAlias].[fieldName] = [expectedValue]
      *
-     * @param string[]            $conditions
+     * @param string[] $conditions
      * @param array<string,mixed> $queryParams
      */
     public function getEqualityCondition(
@@ -54,8 +55,8 @@ class QueryHelper
     /**
      * Generates a condition like [tableAlias].[fieldName] IN ([list])
      *
-     * @param mixed[]             $list
-     * @param string[]            $conditions
+     * @param mixed[] $list
+     * @param string[] $conditions
      * @param array<string,mixed> $queryParams
      */
     public function getInListCondition(
@@ -73,15 +74,77 @@ class QueryHelper
         $paramNames = [];
         foreach ($list as $index => $item) {
             $paramName = $this->getParamName($fieldName, $tableAlias, $index);
+            $value     = $item instanceof \BackedEnum ? $item->value : $item;
 
             $paramNames[]            = ':' . $this->paramPrefix . $paramName;
-            $queryParams[$paramName] = $item;
+            $queryParams[$paramName] = $value;
         }
 
         $operator = $isNegated ? 'NOT IN' : 'IN';
 
         $conditions[] = $this->getPrefixedField($tableAlias, $fieldName) . ' ' . $operator
             . ' (' . implode(', ', $paramNames) . ')';
+    }
+
+    /**
+     * Adds the specified ids to the parameters for a query and returns the parameter names
+     *
+     * @param array<int,int|mixed> $ids
+     * @param array<string,mixed> $params
+     *
+     * @return string[]
+     */
+    public function getIdListParamNames(array $ids, array &$params): array
+    {
+        $ids = array_unique($ids);
+
+        $idParamNames = [];
+        $params       = [];
+        foreach ($ids as $index => $id) {
+            $paramName          = 'id_' . $index;
+            $params[$paramName] = (int)$id;
+            $idParamNames[]     = ':' . $paramName;
+        }
+
+        return $idParamNames;
+    }
+
+    /**
+     * Runs a getListByIds query for the specified table and fields
+     *
+     * @param string[] $fields
+     * @param array<int,int|mixed> $ids
+     *
+     * @return array<int,array<string,mixed>>
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function getListFromTableByIds(MysqlConnection $connection, string $table, array $fields, array $ids, string $idFieldName = 'id'): array
+    {
+        if (empty($fields)) {
+            throw new \InvalidArgumentException('No fields given');
+        }
+
+        if (empty($ids)) {
+            return [];
+        }
+
+        $params     = [];
+        $paramNames = $this->getIdListParamNames($ids, $params);
+
+        $query = '
+            SELECT
+                ' . implode(', ', array_map(fn (string $field) => "`$field`", $fields)) . '
+            FROM
+                `' . $table . '`
+            WHERE
+                `' . $idFieldName . '` IN (' . implode(',', $paramNames) . ')
+            ORDER BY
+                FIELD(`' . $idFieldName . '`, ' . implode(',', $paramNames) . ')
+        ';
+
+        return $connection->query($query, $params)
+            ->fetchAll();
     }
 
     /**
@@ -111,60 +174,5 @@ class QueryHelper
         }
 
         return implode('_', $paramNameParts);
-    }
-
-    /**
-     * Adds the specified ids to the paramteters for a query and returns the parameter names
-     *
-     * @param array<int,int|mixed> $ids
-     * @param array<string,mixed>  $params
-     *
-     * @return string[]
-     */
-    public function getIdListParamNames(array $ids, array &$params): array
-    {
-        $ids = array_unique($ids);
-
-        $idParamNames = [];
-        $params       = [];
-        foreach ($ids as $index => $id) {
-            $paramName          = 'id_' . $index;
-            $params[$paramName] = (int)$id;
-            $idParamNames[]     = ':' . $paramName;
-        }
-
-        return $idParamNames;
-    }
-
-    /**
-     * Runs a getListByIds query for the specified table and fields
-     *
-     * @param string[]             $fields
-     * @param array<int,int|mixed> $ids
-     *
-     * @return array<int,array<string,mixed>>
-     */
-    public function getListFromTableByIds(MysqlConnection $connection, string $table, array $fields, array $ids): array
-    {
-        if (empty($ids)) {
-            return [];
-        }
-
-        $params     = [];
-        $paramNames = $this->getIdListParamNames($ids, $params);
-
-        $query = '
-            SELECT
-                ' . implode(', ', array_map(fn (string $field) => "`$field`", $fields)) . '
-            FROM
-                `' . $table . '`
-            WHERE
-                id IN (' . implode(',', $paramNames) . ')
-            ORDER BY
-                FIELD(id, ' . implode(',', $paramNames) . ')
-        ';
-
-        return $connection->query($query, $params)
-            ->fetchAll();
     }
 }

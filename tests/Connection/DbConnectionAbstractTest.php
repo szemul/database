@@ -428,7 +428,6 @@ class DbConnectionAbstractTest extends TestCase
         string $query,
         array $params = [],
     ): void {
-
         // @phpstan-ignore-next-line
         $debugger->shouldReceive('handleEvent')
             ->once()
@@ -453,7 +452,6 @@ class DbConnectionAbstractTest extends TestCase
     private function expectSuccessfulDebugCompleteEvent(
         DebuggerInterface|MockInterface|LegacyMockInterface $debugger,
     ): void {
-
         // @phpstan-ignore-next-line
         $debugger->shouldReceive('handleEvent')
             ->once()
@@ -475,7 +473,6 @@ class DbConnectionAbstractTest extends TestCase
     private function expectFailedDebugCompleteEvent(
         DebuggerInterface|MockInterface|LegacyMockInterface $debugger,
     ): void {
-
         // @phpstan-ignore-next-line
         $debugger->shouldReceive('handleEvent')
             ->once()

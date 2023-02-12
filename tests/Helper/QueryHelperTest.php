@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Szemul\Database\Connection\MysqlConnection;
 use Szemul\Database\Helper\QueryHelper;
 use Szemul\Database\Result\QueryResult;
+use Szemul\Database\Test\Mock\MockEnum;
 
 class QueryHelperTest extends TestCase
 {
@@ -114,6 +115,18 @@ class QueryHelperTest extends TestCase
 
         $this->assertEquals(['field IN (:field_0, :field_1)'], $conditions);
         $this->assertEquals(['field_0' => 1, 'field_1' => 2], $params);
+    }
+
+    public function testGetInListConditionWhenEnumsGive_shouldUseEnumValue(): void
+    {
+        $fieldName  = 'field';
+        $list       = [MockEnum::A, MockEnum::B];
+        $conditions = $params = [];
+
+        (new QueryHelper())->getInListCondition($fieldName, $list, $conditions, $params);
+
+        $this->assertEquals(['field IN (:field_0, :field_1)'], $conditions);
+        $this->assertEquals(['field_0' => MockEnum::A->value, 'field_1' => MockEnum::B->value], $params);
     }
 
     public function testGetInListConditionWhenNegated_shouldCreateConditionWithNotInOperator(): void

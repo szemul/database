@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Szemul\Database\Helper;
@@ -21,7 +22,7 @@ class QueryHelper
     /**
      * Generates a condition like [tableAlias].[fieldName] = [expectedValue]
      *
-     * @param string[]            $conditions
+     * @param string[] $conditions
      * @param array<string,mixed> $queryParams
      */
     public function getEqualityCondition(
@@ -54,8 +55,8 @@ class QueryHelper
     /**
      * Generates a condition like [tableAlias].[fieldName] IN ([list])
      *
-     * @param mixed[]             $list
-     * @param string[]            $conditions
+     * @param mixed[] $list
+     * @param string[] $conditions
      * @param array<string,mixed> $queryParams
      */
     public function getInListCondition(
@@ -73,9 +74,10 @@ class QueryHelper
         $paramNames = [];
         foreach ($list as $index => $item) {
             $paramName = $this->getParamName($fieldName, $tableAlias, $index);
+            $value     = $item instanceof \BackedEnum ? $item->value : $item;
 
             $paramNames[]            = ':' . $this->paramPrefix . $paramName;
-            $queryParams[$paramName] = $item;
+            $queryParams[$paramName] = $value;
         }
 
         $operator = $isNegated ? 'NOT IN' : 'IN';
@@ -88,7 +90,7 @@ class QueryHelper
      * Adds the specified ids to the parameters for a query and returns the parameter names
      *
      * @param array<int,int|mixed> $ids
-     * @param array<string,mixed>  $params
+     * @param array<string,mixed> $params
      *
      * @return string[]
      */
@@ -110,7 +112,7 @@ class QueryHelper
     /**
      * Runs a getListByIds query for the specified table and fields
      *
-     * @param string[]             $fields
+     * @param string[] $fields
      * @param array<int,int|mixed> $ids
      *
      * @return array<int,array<string,mixed>>

@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [3.0.1] - 2023-02-11
 
+### Added
+- `\Szemul\Database\Helper\QueryHelper::getInListCondition` handles backed enum list
+
 ### Changed
 
 - `\Szemul\Database\Helper\QueryHelper::getListFromTableByIds` now throws Exception if no fields passed

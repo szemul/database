@@ -8,9 +8,6 @@ use Szemul\Database\Connection\MysqlConnection;
 use Szemul\Database\Helper\QueryHelper;
 use Szemul\Database\Result\QueryResult;
 
-/**
- *
- */
 class QueryHelperTest extends TestCase
 {
     private MysqlConnection|MockInterface $connection;

@@ -2,14 +2,18 @@
 
 namespace Szemul\Database\Test\Helper;
 
+use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
 use Szemul\Database\Connection\MysqlConnection;
 use Szemul\Database\Helper\QueryHelper;
 use Szemul\Database\Result\QueryResult;
 
+/**
+ *
+ */
 class QueryHelperTest extends TestCase
 {
-    private MysqlConnection $connection;
+    private MysqlConnection|MockInterface $connection;
 
     protected function setUp(): void
     {

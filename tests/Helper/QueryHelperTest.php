@@ -25,10 +25,10 @@ class QueryHelperTest extends TestCase
         $fieldName = 'field';
 
         return [
-            'int'       => [$fieldName, 11, [$fieldName => 11], ['field = :field']],
-            'string'    => [$fieldName, 'test', [$fieldName => 'test'], ['field = :field']],
-            'bool-true' => [$fieldName, true, [$fieldName => 1], ['field = :field']],
-            'negated'   => [$fieldName, true, [$fieldName => 1], ['field != :field']],
+            'int'       => [$fieldName, 11, false, [$fieldName => 11], ['field = :field']],
+            'string'    => [$fieldName, 'test', false, [$fieldName => 'test'], ['field = :field']],
+            'bool-true' => [$fieldName, true, false, [$fieldName => 1], ['field = :field']],
+            'negated'   => [$fieldName, true, true, [$fieldName => 1], ['field != :field']],
         ];
     }
 
@@ -37,14 +37,14 @@ class QueryHelperTest extends TestCase
      */
     public function testGetEqualityCondition(
         string $fieldName,
-        mixed  $expectation,
-        bool   $isNegated,
-        array  $expectedParams,
-        array  $expectedConditions,
+        mixed $expectation,
+        bool $isNegated,
+        array $expectedParams,
+        array $expectedConditions,
     ): void {
         $conditions = $params = [];
 
-        (new QueryHelper())->getEqualityCondition($fieldName, $expectation, $conditions, $params);
+        (new QueryHelper())->getEqualityCondition($fieldName, $expectation, $conditions, $params, isNegated: $isNegated);
 
         $this->assertSame($expectedParams, $params);
         $this->assertSame($expectedConditions, $conditions);

@@ -27,12 +27,12 @@ class QueryHelper
      */
     public function getEqualityCondition(
         string $fieldName,
-        mixed  $expectation,
-        array  &$conditions,
-        array  &$queryParams,
+        mixed $expectation,
+        array &$conditions,
+        array &$queryParams,
         string $tableAlias = '',
-        bool   $onlyNullConsideredEmpty = false,
-        bool   $isNegated = false,
+        bool $onlyNullConsideredEmpty = false,
+        bool $isNegated = false,
     ): void {
         if (
             (!$onlyNullConsideredEmpty && empty($expectation))

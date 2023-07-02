@@ -32,6 +32,7 @@ class QueryHelper
         array &$queryParams,
         string $tableAlias = '',
         bool $onlyNullConsideredEmpty = false,
+        bool $isNegated = false,
     ): void {
         if (
             (!$onlyNullConsideredEmpty && empty($expectation))
@@ -48,7 +49,9 @@ class QueryHelper
         $paramName = $this->getParamName($fieldName, $tableAlias);
         $fieldName = $this->getPrefixedField($tableAlias, $fieldName);
 
-        $conditions[]            = $fieldName . ' = :' . $this->paramPrefix . $paramName;
+        $operator = $isNegated ? '!=' : '=';
+
+        $conditions[]            = $fieldName . ' ' . $operator . ' :' . $this->paramPrefix . $paramName;
         $queryParams[$paramName] = $expectation;
     }
 

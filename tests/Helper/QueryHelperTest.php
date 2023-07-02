@@ -28,14 +28,20 @@ class QueryHelperTest extends TestCase
             'int'       => [$fieldName, 11, [$fieldName => 11], ['field = :field']],
             'string'    => [$fieldName, 'test', [$fieldName => 'test'], ['field = :field']],
             'bool-true' => [$fieldName, true, [$fieldName => 1], ['field = :field']],
+            'negated'   => [$fieldName, true, [$fieldName => 1], ['field != :field']],
         ];
     }
 
     /**
      * @dataProvider equalityConditionProvider
      */
-    public function testGetEqualityCondition(string $fieldName, mixed $expectation, array $expectedParams, array $expectedConditions): void
-    {
+    public function testGetEqualityCondition(
+        string $fieldName,
+        mixed  $expectation,
+        bool   $isNegated,
+        array  $expectedParams,
+        array  $expectedConditions,
+    ): void {
         $conditions = $params = [];
 
         (new QueryHelper())->getEqualityCondition($fieldName, $expectation, $conditions, $params);

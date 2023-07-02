@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [3.0.2] - 2023-07-02
+
+### Added
+- `\Szemul\Database\Helper\QueryHelper::getEqualityCondition` allows != as well as =
+
+
 ## [3.0.1] - 2023-02-11
 
 ### Added

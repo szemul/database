@@ -23,7 +23,7 @@ abstract class EntityAbstract implements IteratorAggregate, ArrayAccess
     {
         $this->populateFromArray($entityData);
 
-        if (!empty($this->id) && !is_null($this->id) && is_numeric($this->id)) {
+        if (!empty($this->id) && is_numeric($this->id)) {
             $this->id = (int)$this->id;
         }
     }
